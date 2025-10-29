@@ -1,0 +1,63 @@
+<section class="login">
+  <form class="login__card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="login__brand" aria-hidden="true">
+      <div class="login__logo">Sua logo aqui</div>
+    </div>
+
+    <header class="login__header">
+      <h1 class="login__title">Entrar</h1>
+      <p class="login__subtitle">Entre para acessar o painel da Ponto Azul.</p>
+    </header>
+
+    @if (errorMessage()) {
+      <p class="login__error" role="alert">{{ errorMessage() }}</p>
+    }
+
+    <label class="login__field">
+      <span class="login__label">E-mail</span>
+      <input
+        type="email"
+        formControlName="email"
+        class="login__input"
+        [class.login__input--invalid]="emailInvalid()"
+        placeholder="nome@empresa.com"
+        autocomplete="email"
+        required
+      />
+      @if (emailControl.touched && emailControl.hasError('required')) {
+        <span class="login__field-error">Informe seu e-mail.</span>
+      }
+      @if (emailControl.touched && emailControl.hasError('email')) {
+        <span class="login__field-error">Informe um e-mail válido.</span>
+      }
+    </label>
+
+    <label class="login__field">
+      <span class="login__label">Senha</span>
+      <input
+        type="password"
+        formControlName="password"
+        class="login__input"
+        [class.login__input--invalid]="passwordInvalid()"
+        placeholder="********"
+        autocomplete="current-password"
+        minlength="6"
+        required
+      />
+      @if (passwordControl.touched && passwordControl.hasError('required')) {
+        <span class="login__field-error">Informe sua senha.</span>
+      }
+      @if (passwordControl.touched && passwordControl.hasError('minlength')) {
+        <span class="login__field-error">A senha deve ter pelo menos 6 caracteres.</span>
+      }
+    </label>
+
+    <button type="submit" class="login__submit" [disabled]="isSubmitting()" [attr.aria-busy]="isSubmitting()">
+      @if (isSubmitting()) {
+        <span>Entrando...</span>
+      } @else {
+        <span>Entrar</span>
+      }
+    </button>
+  </form>
+</section>
