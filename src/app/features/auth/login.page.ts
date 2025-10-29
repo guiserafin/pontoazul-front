@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiClient } from '../../core/services/api-client.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -23,14 +22,16 @@ interface LoginResponse {
   styleUrl: './login.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiClient = inject(ApiClient);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly isSubmitting = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly warningMessage = signal<string | null>(null);
 
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -43,6 +44,15 @@ export class LoginPage {
   protected readonly emailInvalid = computed(() => this.emailControl.invalid && this.emailControl.touched);
   protected readonly passwordInvalid = computed(() => this.passwordControl.invalid && this.passwordControl.touched);
 
+  ngOnInit(): void {
+    // Verifica se foi redirecionado por token expirado
+    this.route.queryParams.subscribe(params => {
+      if (params['expired'] === 'true') {
+        this.warningMessage.set('Sua sessão expirou. Por favor, faça login novamente.');
+      }
+    });
+  }
+
   async onSubmit(): Promise<void> {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -53,11 +63,15 @@ export class LoginPage {
 
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
+    this.warningMessage.set(null);
 
     try {
       const response = await firstValueFrom(this.apiClient.post<LoginRequest, LoginResponse>('auth/login', credentials));
       this.authService.setToken(response.token);
-      await this.router.navigateByUrl('home');
+
+      // Redireciona para a URL de retorno ou home
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+      await this.router.navigateByUrl(returnUrl);
     } catch (error) {
       this.errorMessage.set(this.resolveErrorMessage(error));
     } finally {
@@ -67,23 +81,14 @@ export class LoginPage {
 
   private resolveErrorMessage(error: unknown): string {
     if (error instanceof HttpErrorResponse) {
-      if (typeof error.error === 'string' && error.error.trim().length > 0) {
-        return error.error;
+      if (error.status === 401) {
+        return 'E-mail ou senha incorretos.';
       }
-
-      if (error.error && typeof error.error === 'object' && 'message' in error.error) {
-        const message = (error.error as Record<string, unknown>)['message'];
-        if (typeof message === 'string' && message.trim().length > 0) {
-          return message;
-        }
-      }
-
       if (error.status === 0) {
         return 'Não foi possível conectar ao servidor. Verifique sua conexão.';
       }
-
-      if (error.status === 401) {
-        return 'Credenciais inválidas. Confira seu e-mail e senha.';
+      if (error.error?.message) {
+        return error.error.message;
       }
     }
 

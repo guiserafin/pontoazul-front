@@ -16,6 +16,10 @@
       <p class="login__subtitle">Entre para acessar o painel da Ponto Azul.</p>
     </header>
 
+    @if (warningMessage()) {
+      <p class="login__warning" role="alert">{{ warningMessage() }}</p>
+    }
+
     @if (errorMessage()) {
       <p class="login__error" role="alert">{{ errorMessage() }}</p>
     }
@@ -55,7 +59,7 @@
         <span class="login__field-error">Informe sua senha.</span>
       }
       @if (passwordControl.touched && passwordControl.hasError('minlength')) {
-        <span class="login__field-error">A senha deve ter pelo menos 6 caracteres.</span>
+        <span class="login__field-error">A senha deve ter no mínimo 6 caracteres.</span>
       }
     </label>
 

@@ -7,6 +7,7 @@ import { APP_ENVIRONMENT, API_BASE_URL, AppEnvironment } from './core/config/env
 import { apiPrefixInterceptor } from './core/interceptors/api-prefix.interceptor';
 import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { routes } from './app.routes';
+import { authTokenInterceptor } from './core/interceptors/auth-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withFetch(),
-      withInterceptors([apiPrefixInterceptor, httpErrorInterceptor])
+      withInterceptors([apiPrefixInterceptor, authTokenInterceptor, httpErrorInterceptor])
     ),
     { provide: APP_ENVIRONMENT, useValue: environment },
     {

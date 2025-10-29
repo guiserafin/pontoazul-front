@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 interface JwtPayload {
   'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'?: string;
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'?: string;
+  exp?: number;
   [key: string]: any;
 }
 
@@ -10,7 +11,7 @@ interface JwtPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly TOKEN_KEY = 'auth_token';
+  private readonly TOKEN_KEY = 'pontoazul_auth_token';
 
   readonly isAuthenticated = signal(false);
   readonly isAdmin = signal(false);
@@ -24,10 +25,13 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       const payload = this.decodeToken(token);
-      if (payload) {
+      if (payload && this.isTokenValid(payload)) {
         this.isAuthenticated.set(true);
         this.userId.set(this.extractUserId(payload));
         this.isAdmin.set(this.extractIsAdmin(payload));
+      } else {
+        // token expirado ou inválido
+        this.clearToken();
       }
     }
   }
@@ -46,6 +50,18 @@ export class AuthService {
       console.error('Error decoding token:', error);
       return null;
     }
+  }
+
+  private isTokenValid(payload: JwtPayload): boolean {
+    if (!payload.exp) {
+      return false;
+    }
+
+    // exp está em segundos, Date.now() está em milissegundos
+    const expirationDate = payload.exp * 1000;
+    const now = Date.now();
+
+    return expirationDate > now;
   }
 
   private extractUserId(payload: JwtPayload): number | null {
@@ -73,7 +89,7 @@ export class AuthService {
 
   setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
-    
+
     const payload = this.decodeToken(token);
     if (payload) {
       this.isAuthenticated.set(true);

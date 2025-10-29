@@ -222,6 +222,18 @@
   transform: none;
 }
 
+.login__warning {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(234, 179, 8, 0.05));
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  color: #854d0e;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+}
+
 @media (max-width: 640px) {
   .login {
     padding: 1.5rem;
