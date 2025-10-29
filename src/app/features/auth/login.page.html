@@ -1,7 +1,14 @@
 <section class="login">
   <form class="login__card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="login__brand" aria-hidden="true">
-      <div class="login__logo">Sua logo aqui</div>
+      <img
+        class="login__logo"
+        src="assets/images/logo-transparente.png"
+        width="180"
+        height="48"
+        alt=""
+        priority
+      />
     </div>
 
     <header class="login__header">

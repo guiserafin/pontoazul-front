@@ -1,0 +1,52 @@
+<nav class="navbar">
+  <div class="navbar__container">
+    <!-- <div class="navbar__brand">
+      <span class="navbar__logo">Ponto Azul</span>
+    </div> -->
+
+    <button
+      class="navbar__toggle"
+      type="button"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="isMobileMenuOpen()"
+      aria-label="Toggle navigation">
+      <span class="navbar__toggle-icon"></span>
+      <span class="navbar__toggle-icon"></span>
+      <span class="navbar__toggle-icon"></span>
+    </button>
+
+    <button
+      class="navbar__link"
+      type="button"
+      (click)="navigateTo('/home')">
+      Início
+    </button>
+
+    <div class="navbar__menu" [class.navbar__menu--open]="isMobileMenuOpen()">
+      @if (isAdmin()) {
+        <button
+          class="navbar__link"
+          type="button"
+          (click)="navigateTo('/usuarios')">
+          Usuários
+        </button>
+      }
+
+
+
+      <button
+        class="navbar__link"
+        type="button"
+        (click)="navigateTo('/pontos')">
+        Pontos
+      </button>
+
+      <button
+        class="navbar__link navbar__link--logout"
+        type="button"
+        (click)="logout()">
+        Sair
+      </button>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,52 @@
+<app-navbar />
+
+@if (isAdmin()) {
+	<section class="home">
+		<h1 class="home__title">Ponto Azul Frontend</h1>
+		<p class="home__subtitle">
+			Backend base URL: <span class="home__url">{{ apiBaseUrl }}</span>
+		</p>
+		<p class="home__hint">
+			Use the ApiClient service to integrate new features with the backend endpoints.
+		</p>
+	</section>
+} @else {
+	<section class="ponto">
+		<div class="ponto__card">
+			<div class="ponto__time-display">
+				<p class="ponto__date">{{ currentDate() }}</p>
+				<p class="ponto__time">{{ currentTime() }}</p>
+				<p class="ponto__timezone">Horário de Brasília</p>
+			</div>
+
+			<div class="ponto__actions">
+				<button
+					class="ponto__button ponto__button--primary"
+					type="button"
+					[disabled]="isRegistering()"
+					(click)="registrarPonto()">
+					@if (isRegistering()) {
+						Registrando...
+					} @else {
+						Registrar Ponto
+					}
+				</button>
+
+				<button
+					class="ponto__button ponto__button--secondary"
+					type="button"
+					(click)="abrirModalAjuste()">
+					Ajustar Ponto
+				</button>
+			</div>
+
+			@if (successMessage()) {
+				<p class="ponto__message ponto__message--success">{{ successMessage() }}</p>
+			}
+
+			@if (errorMessage()) {
+				<p class="ponto__message ponto__message--error">{{ errorMessage() }}</p>
+			}
+		</div>
+	</section>
+}

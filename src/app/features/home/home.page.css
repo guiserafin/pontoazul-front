@@ -1,0 +1,238 @@
+.home {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.home__title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.home__subtitle {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.home__url {
+  font-weight: 600;
+}
+
+.home__hint {
+  margin: 0;
+  color: #555;
+}
+
+.ponto {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 4rem);
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.ponto__card {
+  display: grid;
+  gap: 2rem;
+  width: min(480px, 100%);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+  background: #ffffff;
+  box-shadow:
+    0 20px 40px -12px rgba(15, 23, 42, 0.12),
+    0 0 0 1px rgba(148, 163, 184, 0.1);
+  animation: card-entry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes card-entry {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ponto__time-display {
+  display: grid;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.25);
+}
+
+.ponto__date {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ponto__time {
+  margin: 0;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.ponto__timezone {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+}
+
+.ponto__actions {
+  display: grid;
+  gap: 1rem;
+}
+
+.ponto__button {
+  padding: 1.125rem 1.5rem;
+  border: none;
+  border-radius: 1.25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+.ponto__button--primary {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff;
+}
+
+.ponto__button--primary:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(30, 58, 138, 0.3);
+}
+
+.ponto__button--primary:not([disabled]):active {
+  transform: translateY(0);
+}
+
+.ponto__button--primary[disabled] {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
+.ponto__button--secondary {
+  background: #ffffff;
+  color: #1e3a8a;
+  border: 2px solid #1e3a8a;
+}
+
+.ponto__button--secondary:hover {
+  background: #1e3a8a;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(30, 58, 138, 0.25);
+}
+
+.ponto__button--secondary:active {
+  transform: translateY(0);
+}
+
+.ponto__message {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  animation: message-entry 0.3s ease;
+}
+
+@keyframes message-entry {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ponto__message--success {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.08));
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #15803d;
+}
+
+.ponto__message--error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.08));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+@media (max-width: 640px) {
+  .ponto {
+    padding: 1.5rem;
+  }
+
+  .ponto__card {
+    padding: 2.5rem 2rem;
+    gap: 1.75rem;
+  }
+
+  .ponto__time {
+    font-size: 3rem;
+  }
+
+  .ponto__button {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ponto {
+    padding: 1rem;
+  }
+
+  .ponto__card {
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+    border-radius: 1.75rem;
+  }
+
+  .ponto__time-display {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .ponto__time {
+    font-size: 2.5rem;
+  }
+
+  .ponto__date {
+    font-size: 0.925rem;
+  }
+
+  .ponto__timezone {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
