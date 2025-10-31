@@ -50,3 +50,10 @@
 		</div>
 	</section>
 }
+
+@if (isModalOpen()) {
+	<app-ajustar-ponto-modal
+		(close)="fecharModal()"
+		(submit)="onAjustarPontoSubmit($event)"
+	/>
+}

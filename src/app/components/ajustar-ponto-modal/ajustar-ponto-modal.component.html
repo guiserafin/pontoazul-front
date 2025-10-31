@@ -1,0 +1,108 @@
+<div class="modal" (click)="onBackdropClick($event)" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal__content">
+    <header class="modal__header">
+      <h2 id="modal-title" class="modal__title">Ajustar Ponto</h2>
+      <button
+        type="button"
+        class="modal__close"
+        (click)="onClose()"
+        aria-label="Fechar modal">
+        ✕
+      </button>
+    </header>
+
+    <form class="modal__form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="modal__field">
+        <label class="modal__label" for="data">Data</label>
+        <input
+          id="data"
+          type="text"
+          formControlName="data"
+          mask="00/00/0000"
+          class="modal__input"
+          [class.modal__input--invalid]="dataControl.invalid && dataControl.touched"
+          placeholder="DD/MM/AAAA"
+          (input)="onFieldChange()"
+          required
+        />
+        @if (dataControl.touched && dataControl.hasError('required')) {
+          <span class="modal__field-error">Informe a data.</span>
+        }
+        @if (dataControl.touched && dataControl.hasError('pattern')) {
+          <span class="modal__field-error">Formato inválido. Use DD/MM/AAAA.</span>
+        }
+      </div>
+
+      <div class="modal__field">
+        <label class="modal__label" for="hora">Hora</label>
+        <input
+          id="hora"
+          type="text"
+          formControlName="hora"
+          mask="00:00"
+          class="modal__input"
+          [class.modal__input--invalid]="horaControl.invalid && horaControl.touched"
+          placeholder="HH:MM"
+          (input)="onFieldChange()"
+          required
+        />
+        @if (horaControl.touched && horaControl.hasError('required')) {
+          <span class="modal__field-error">Informe a hora.</span>
+        }
+        @if (horaControl.touched && horaControl.hasError('pattern')) {
+          <span class="modal__field-error">Formato inválido. Use HH:MM.</span>
+        }
+      </div>
+
+      @if (futureDateTimeError()) {
+        <div class="modal__alert modal__alert--error">
+          <span class="modal__alert-icon">⚠</span>
+          <span class="modal__alert-message">Não é possível ajustar ponto para uma data/hora futura.</span>
+        </div>
+      }
+
+      <div class="modal__field">
+        <label class="modal__label" for="justificativa">
+          Justificativa
+          <span class="modal__label-counter">{{ justificativaControl.value.length }}/100</span>
+        </label>
+        <textarea
+          id="justificativa"
+          formControlName="justificativa"
+          class="modal__textarea"
+          [class.modal__textarea--invalid]="justificativaControl.invalid && justificativaControl.touched"
+          placeholder="Descreva o motivo do ajuste..."
+          maxlength="100"
+          rows="4"
+          required
+          (input)="onFieldChange()"
+        ></textarea>
+        @if (justificativaControl.touched && justificativaControl.hasError('required')) {
+          <span class="modal__field-error">Informe a justificativa.</span>
+        }
+        @if (justificativaControl.touched && justificativaControl.hasError('maxlength')) {
+          <span class="modal__field-error">Máximo de 100 caracteres.</span>
+        }
+      </div>
+
+      <div class="modal__actions">
+        <button
+          type="button"
+          class="modal__button modal__button--secondary"
+          (click)="onClose()">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="modal__button modal__button--primary"
+          [disabled]="isSubmitting() || !canSubmit">
+          @if (isSubmitting()) {
+            Enviando...
+          } @else {
+            Enviar
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 import { environment } from '../environments/environment';
 import { APP_ENVIRONMENT, API_BASE_URL, AppEnvironment } from './core/config/environment.tokens';
@@ -18,6 +19,9 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([apiPrefixInterceptor, authTokenInterceptor, httpErrorInterceptor])
     ),
+    provideEnvironmentNgxMask({
+      dropSpecialCharacters: false,
+    }),
     { provide: APP_ENVIRONMENT, useValue: environment },
     {
       provide: API_BASE_URL,

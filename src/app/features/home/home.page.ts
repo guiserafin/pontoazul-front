@@ -6,10 +6,14 @@ import { API_BASE_URL } from '../../core/config/environment.tokens';
 import { AuthService } from '../../core/services/auth.service';
 import { ApiClient } from '../../core/services/api-client.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { AjustarPontoModalComponent } from '../../components/ajustar-ponto-modal/ajustar-ponto-modal.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [NavbarComponent],
+  imports: [
+    NavbarComponent,
+    AjustarPontoModalComponent
+  ],
   templateUrl: './home.page.html',
   styleUrl: './home.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -25,6 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
   protected readonly isRegistering = signal(false);
   protected readonly successMessage = signal<string | null>(null);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly isModalOpen = signal(false);
 
   private timeInterval?: number;
 
@@ -103,8 +108,57 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   abrirModalAjuste(): void {
-    // TODO: Implementar modal de ajuste de ponto
-    console.log('Abrir modal de ajuste de ponto');
+    this.isModalOpen.set(true);
+  }
+
+  fecharModal(): void {
+    this.isModalOpen.set(false);
+  }
+
+  async onAjustarPontoSubmit(data: { data: string; hora: string; justificativa: string }): Promise<void> {
+    this.successMessage.set(null);
+    this.errorMessage.set(null);
+
+    const userId = this.authService.userId();
+
+    if (userId === null) {
+      this.errorMessage.set('Erro: Usuário não identificado. Faça login novamente.');
+      return;
+    }
+
+    // Parse da data no formato DD/MM/YYYY
+    const dataParts = data.data.split('/');
+    const dia = parseInt(dataParts[0], 10);
+    const mes = parseInt(dataParts[1], 10) - 1; // Mês é 0-indexed
+    const ano = parseInt(dataParts[2], 10);
+
+    // Parse da hora no formato HH:MM
+    const horaParts = data.hora.split(':');
+    const horas = parseInt(horaParts[0], 10);
+    const minutos = parseInt(horaParts[1], 10);
+
+    // Cria o timestamp no formato ISO 8601
+    const timestamp = new Date(Date.UTC(ano, mes, dia, horas, minutos));
+
+    const adjustRequest = {
+      userId: userId,
+      timestamp: timestamp.toISOString(),
+      justification: data.justificativa
+    };
+
+    try {
+      await firstValueFrom(this.apiClient.post<typeof adjustRequest, any>('ponto/adjust', adjustRequest));
+      this.successMessage.set('Ponto ajustado com sucesso!');
+      this.fecharModal();
+
+      // Limpar mensagem de sucesso após 5 segundos
+      setTimeout(() => this.successMessage.set(null), 5000);
+    } catch (error) {
+      this.errorMessage.set(this.resolveErrorMessage(error));
+
+      // Limpar mensagem de erro após 8 segundos
+      setTimeout(() => this.errorMessage.set(null), 8000);
+    }
   }
 
   private resolveErrorMessage(error: unknown): string {
