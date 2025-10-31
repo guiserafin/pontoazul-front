@@ -1,0 +1,22 @@
+<div class="modal" (click)="onBackdropClick($event)">
+  <div class="modal__content">
+    <h2 class="modal__title">{{ title() }}</h2>
+    <p class="modal__message">{{ message() }}</p>
+
+    <div class="modal__actions">
+      <button
+        class="modal__button modal__button--cancel"
+        type="button"
+        (click)="onCancel()">
+        {{ cancelText() }}
+      </button>
+      <button
+        class="modal__button"
+        [class]="'modal__button--' + confirmButtonClass()"
+        type="button"
+        (click)="onConfirm()">
+        {{ confirmText() }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,14 +1,75 @@
 <app-navbar />
 
 @if (isAdmin()) {
-	<section class="home">
-		<h1 class="home__title">Ponto Azul Frontend</h1>
-		<p class="home__subtitle">
-			Backend base URL: <span class="home__url">{{ apiBaseUrl }}</span>
-		</p>
-		<p class="home__hint">
-			Use the ApiClient service to integrate new features with the backend endpoints.
-		</p>
+	<section class="admin">
+		<div class="admin__header">
+			<h1 class="admin__title">Pontos Pendentes de Aprovação</h1>
+			@if (isLoadingPontos()) {
+				<p class="admin__loading">Carregando...</p>
+			}
+		</div>
+
+		@if (successMessage()) {
+			<p class="admin__success">{{ successMessage() }}</p>
+		}
+
+		@if (errorMessage()) {
+			<p class="admin__error">{{ errorMessage() }}</p>
+		}
+
+		@if (!isLoadingPontos() && pendingPontos().length === 0) {
+			<p class="admin__empty">Nenhum ponto pendente no momento.</p>
+		}
+
+		@if (pendingPontos().length > 0) {
+			<div class="admin__table-container">
+				<table class="admin__table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Usuário</th>
+							<th>E-mail</th>
+							<th>Data/Hora</th>
+							<th>Situação</th>
+							<th>Justificativa</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (ponto of pendingPontos(); track ponto.id) {
+							<tr>
+								<td>{{ ponto.id }}</td>
+								<td>{{ ponto.userName }}</td>
+								<td>{{ ponto.userEmail }}</td>
+								<td>{{ formatDateTime(ponto.hour) }}</td>
+								<td>
+									<span class="admin__badge admin__badge--pending">
+										{{ ponto.situation }}
+									</span>
+								</td>
+								<td>{{ ponto.justification }}</td>
+								<td>
+									<div class="admin__actions">
+										<button
+											class="admin__button admin__button--approve"
+											type="button"
+											(click)="aprovarPonto(ponto.id)">
+											Aprovar
+										</button>
+										<button
+											class="admin__button admin__button--reject"
+											type="button"
+											(click)="reprovarPonto(ponto.id)">
+											Reprovar
+										</button>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
 	</section>
 } @else {
 	<section class="ponto">
@@ -55,5 +116,16 @@
 	<app-ajustar-ponto-modal
 		(close)="fecharModal()"
 		(submit)="onAjustarPontoSubmit($event)"
+	/>
+}
+
+@if (confirmModalOpen() && confirmModalData()) {
+	<app-confirm-modal
+		[title]="confirmModalData()!.title"
+		[message]="confirmModalData()!.message"
+		[confirmText]="confirmModalData()!.confirmText"
+		[confirmButtonClass]="confirmModalData()!.confirmClass"
+		(confirm)="confirmarAcao()"
+		(cancel)="fecharConfirmModal()"
 	/>
 }

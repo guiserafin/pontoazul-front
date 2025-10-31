@@ -23,6 +23,192 @@
   color: #555;
 }
 
+/* Admin Section */
+.admin {
+  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.admin__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.25);
+}
+
+.admin__title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.admin__loading {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.admin__success {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: #d1fae5;
+  color: #065f46;
+  font-weight: 500;
+}
+
+.admin__error {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: #fee;
+  color: #c00;
+  font-weight: 500;
+}
+
+.admin__empty {
+  padding: 2rem;
+  text-align: center;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.admin__table-container {
+  overflow-x: auto;
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+}
+
+.admin__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin__table thead {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+}
+
+.admin__table th {
+  padding: 1.25rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin__table th:first-child {
+  padding-left: 1.5rem;
+  border-top-left-radius: 1.5rem;
+}
+
+.admin__table th:last-child {
+  padding-right: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+
+.admin__table tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.2s;
+}
+
+.admin__table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.admin__table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.admin__table td {
+  padding: 1.25rem 1rem;
+  font-size: 0.9375rem;
+  color: #334155;
+}
+
+.admin__table td:first-child {
+  padding-left: 1.5rem;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.admin__table td:last-child {
+  padding-right: 1.5rem;
+}
+
+.admin__badge {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.admin__badge--pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.admin__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.admin__button {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin__button--approve {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.admin__button--approve:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.admin__button--approve:active {
+  transform: translateY(0);
+}
+
+.admin__button--reject {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.admin__button--reject:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.admin__button--reject:active {
+  transform: translateY(0);
+}
+
+/* Ponto Section */
 .ponto {
   display: grid;
   place-items: center;
