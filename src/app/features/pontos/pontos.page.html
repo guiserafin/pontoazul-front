@@ -1,0 +1,119 @@
+<app-navbar />
+
+<section class="pontos">
+  <div class="pontos__header">
+    <h1 class="pontos__title">Consulta de Pontos</h1>
+    <p class="pontos__description">Filtre e visualize os registros de ponto</p>
+  </div>
+
+  <div class="pontos__filters">
+    <div class="pontos__filters-card">
+      <h2 class="pontos__filters-title">Filtros</h2>
+
+      <form class="pontos__form" [formGroup]="filterForm">
+        @if (isAdmin()) {
+          <div class="pontos__field">
+            <label class="pontos__label" for="usuario">Usuário</label>
+            <select
+              id="usuario"
+              class="pontos__select"
+              formControlName="usuarioId">
+              @for (user of usuarios(); track user.id) {
+                <option [value]="user.id">{{ user.name }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        <div class="pontos__field">
+          <label class="pontos__label" for="dataInicio">Data Inicial</label>
+          <input
+            id="dataInicio"
+            type="date"
+            class="pontos__input"
+            formControlName="dataInicio" />
+          @if (filterForm.controls.dataInicio.touched && filterForm.controls.dataInicio.invalid) {
+            <span class="pontos__error">Data inicial é obrigatória</span>
+          }
+        </div>
+
+        <div class="pontos__field">
+          <label class="pontos__label" for="dataFim">Data Final</label>
+          <input
+            id="dataFim"
+            type="date"
+            class="pontos__input"
+            formControlName="dataFim" />
+          @if (filterForm.controls.dataFim.touched && filterForm.controls.dataFim.invalid) {
+            <span class="pontos__error">Data final é obrigatória</span>
+          }
+        </div>
+
+        <button
+          type="button"
+          class="pontos__button"
+          [disabled]="filterForm.invalid || isLoadingPontos()"
+          (click)="buscarPontos()">
+          @if (isLoadingPontos()) {
+            Buscando...
+          } @else {
+            Buscar
+          }
+        </button>
+      </form>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="pontos__message pontos__message--error">{{ errorMessage() }}</p>
+  }
+
+  @if (pontos().length > 0) {
+    <div class="pontos__results">
+      <h2 class="pontos__results-title">Resultados ({{ pontos().length }} registro(s))</h2>
+
+      <div class="pontos__table-container">
+        <table class="pontos__table">
+          <thead>
+            <tr>
+              @if (isAdmin()) {
+                <th>Usuário</th>
+              }
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Situação</th>
+              <th>Justificativa</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (ponto of pontos(); track ponto.id) {
+              <tr>
+                @if (isAdmin()) {
+                  <td>{{ ponto.userName }}</td>
+                }
+                <td>{{ formatDate(ponto.hour) }}</td>
+                <td>{{ formatTime(ponto.hour) }}</td>
+                <td>
+                  <span
+                    class="pontos__badge"
+                    [class.pontos__badge--approved]="ponto.situation === 'Approved'"
+                    [class.pontos__badge--rejected]="ponto.situation === 'Rejected'"
+                    [class.pontos__badge--pending]="ponto.situation === 'Pending'">
+                    {{ getSituationLabel(ponto.situation) }}
+                  </span>
+                </td>
+                <td>{{ ponto.justification || '-' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  @if (!isLoadingPontos() && hasSearched() && pontos().length === 0) {
+    <div class="pontos__empty">
+      <p class="pontos__empty-text">Nenhum registro encontrado para os filtros selecionados.</p>
+    </div>
+  }
+</section>
