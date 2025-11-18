@@ -1,0 +1,83 @@
+<app-navbar />
+
+<section class="usuarios">
+  <div class="usuarios__header">
+    <div class="usuarios__header-content">
+      <h1 class="usuarios__title">Gerenciamento de Usuários</h1>
+      <p class="usuarios__description">Visualize e gerencie os usuários do sistema</p>
+    </div>
+    <button
+      type="button"
+      class="usuarios__add-button"
+      (click)="abrirModalNovoUsuario()">
+      <span class="usuarios__add-icon">+</span>
+      Novo Usuário
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="usuarios__loading">
+      <p>Carregando usuários...</p>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <p class="usuarios__error">{{ errorMessage() }}</p>
+  }
+
+  @if (!isLoading() && usuarios().length === 0) {
+    <div class="usuarios__empty">
+      <p class="usuarios__empty-text">Nenhum usuário cadastrado no momento.</p>
+    </div>
+  }
+
+  @if (usuarios().length > 0) {
+    <div class="usuarios__table-container">
+      <table class="usuarios__table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Função</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario.id) {
+            <tr>
+              <td>{{ usuario.name }}</td>
+              <td>{{ usuario.email }}</td>
+              <td>
+                <span
+                  class="usuarios__badge"
+                  [class.usuarios__badge--admin]="usuario.role.toString() == 'Admin'"
+                  [class.usuarios__badge--user]="usuario.role.toString() === 'User'">
+                  {{ usuario.role.toString() === 'Admin' ? 'Administrador' : 'Usuário' }}
+                </span>
+              </td>
+              <td>
+                <span
+                  class="usuarios__badge"
+                  [class.usuarios__badge--active]="usuario.active"
+                  [class.usuarios__badge--inactive]="!usuario.active">
+                  {{ usuario.active ? 'Ativo' : 'Inativo' }}
+                </span>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="usuarios__action-button"
+                  [class.usuarios__action-button--activate]="!usuario.active"
+                  [class.usuarios__action-button--deactivate]="usuario.active"
+                  (click)="toggleUsuarioStatus(usuario.id)">
+                  {{ usuario.active ? 'Desativar' : 'Ativar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
