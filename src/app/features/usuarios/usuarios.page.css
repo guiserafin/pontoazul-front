@@ -90,6 +90,15 @@
   font-weight: 500;
 }
 
+.usuarios__success {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  background: #d1fae5;
+  color: #065f46;
+  font-weight: 500;
+}
+
 .usuarios__empty {
   padding: 3rem 2rem;
   text-align: center;

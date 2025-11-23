@@ -1,0 +1,104 @@
+<div class="modal" (click)="onBackdropClick($event)">
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title">Novo Usuário</h2>
+      <button class="modal__close" type="button" (click)="onClose()">×</button>
+    </div>
+
+    <form class="modal__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="modal__field">
+        <label class="modal__label" for="name">
+          Nome <span class="modal__required">*</span>
+        </label>
+        <input
+          id="name"
+          type="text"
+          class="modal__input"
+          formControlName="name"
+          placeholder="Digite o nome completo"
+          [class.modal__input--error]="nameControl.touched && nameControl.invalid" />
+        @if (nameControl.touched && nameControl.hasError('required')) {
+          <span class="modal__error">Nome é obrigatório</span>
+        }
+        @if (nameControl.touched && nameControl.hasError('minlength')) {
+          <span class="modal__error">Nome deve ter no mínimo 3 caracteres</span>
+        }
+      </div>
+
+      <div class="modal__field">
+        <label class="modal__label" for="email">
+          E-mail <span class="modal__required">*</span>
+        </label>
+        <input
+          id="email"
+          type="email"
+          class="modal__input"
+          formControlName="email"
+          placeholder="exemplo@email.com"
+          [class.modal__input--error]="emailControl.touched && emailControl.invalid" />
+        @if (emailControl.touched && emailControl.hasError('required')) {
+          <span class="modal__error">E-mail é obrigatório</span>
+        }
+        @if (emailControl.touched && emailControl.hasError('email')) {
+          <span class="modal__error">E-mail inválido</span>
+        }
+      </div>
+
+      <div class="modal__checkbox-field">
+        <label class="modal__checkbox-label">
+          <input
+            type="checkbox"
+            class="modal__checkbox"
+            formControlName="isAdmin" />
+          <span class="modal__checkbox-text">Usuário Administrador</span>
+        </label>
+      </div>
+
+      <div class="modal__field">
+        <label class="modal__label" for="cpf">
+          CPF <span class="modal__required">*</span>
+        </label>
+        <input
+          id="cpf"
+          type="text"
+          class="modal__input"
+          formControlName="cpf"
+          placeholder="000.000.000-00"
+          mask="000.000.000-00"
+          [class.modal__input--error]="cpfControl.touched && cpfControl.invalid" />
+        @if (cpfControl.touched && cpfControl.hasError('required')) {
+          <span class="modal__error">CPF é obrigatório para usuários comuns</span>
+        }
+        @if (cpfControl.touched && cpfControl.hasError('pattern')) {
+          <span class="modal__error">CPF inválido</span>
+        }
+      </div>
+
+      <div class="modal__info">
+        <div class="modal__info-icon">ℹ️</div>
+        <div class="modal__info-text">
+          <strong>Senha Inicial:</strong> Ao criar o usuário, a senha inicial será igual ao CPF (incluindo pontos e traço).
+        </div>
+      </div>
+
+      <div class="modal__actions">
+        <button
+          class="modal__button modal__button--cancel"
+          type="button"
+          (click)="onClose()">
+          Cancelar
+        </button>
+        <button
+          class="modal__button modal__button--submit"
+          type="submit"
+          [disabled]="!canSubmit()">
+          @if (isSubmitting()) {
+            Criando...
+          } @else {
+            Criar Usuário
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

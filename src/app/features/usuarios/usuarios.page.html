@@ -25,6 +25,10 @@
     <p class="usuarios__error">{{ errorMessage() }}</p>
   }
 
+  @if (successMessage()) {
+    <p class="usuarios__success">{{ successMessage() }}</p>
+  }
+
   @if (!isLoading() && usuarios().length === 0) {
     <div class="usuarios__empty">
       <p class="usuarios__empty-text">Nenhum usuário cadastrado no momento.</p>
@@ -81,3 +85,10 @@
     </div>
   }
 </section>
+
+@if (isModalOpen()) {
+  <app-novo-usuario-modal
+    (close)="fecharModal()"
+    (submit)="onNovoUsuarioSubmit($event)"
+  />
+}
