@@ -31,16 +31,13 @@
           Usuários
         </button>
       }
-      @else {
-        <button
-          class="navbar__link"
-          type="button"
-          (click)="navigateTo('/perfil')">
-          Perfil
-        </button>
-      }
 
-
+      <button
+        class="navbar__link"
+        type="button"
+        (click)="openPerfilModal()">
+        Perfil
+      </button>
 
       <button
         class="navbar__link"
@@ -58,3 +55,12 @@
     </div>
   </div>
 </nav>
+
+@if (isPerfilModalOpen() && userProfile()) {
+  <app-perfil-modal
+    [userName]="userProfile()!.name"
+    [userEmail]="userProfile()!.email"
+    (close)="closePerfilModal()"
+    (submit)="onAlterarSenhaSubmit($event)"
+  />
+}

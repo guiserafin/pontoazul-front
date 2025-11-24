@@ -1,0 +1,91 @@
+<div class="modal" (click)="onBackdropClick($event)">
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title">Meu Perfil</h2>
+      <button class="modal__close" type="button" (click)="onClose()">×</button>
+    </div>
+
+    <form class="modal__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="modal__field">
+        <label class="modal__label" for="name">Nome</label>
+        <input
+          id="name"
+          type="text"
+          class="modal__input modal__input--readonly"
+          [value]="userName()"
+          readonly />
+      </div>
+
+      <div class="modal__field">
+        <label class="modal__label" for="email">E-mail</label>
+        <input
+          id="email"
+          type="email"
+          class="modal__input modal__input--readonly"
+          [value]="userEmail()"
+          readonly />
+      </div>
+
+      <div class="modal__divider"></div>
+
+      <h3 class="modal__subtitle">Alterar Senha</h3>
+
+      <div class="modal__field">
+        <label class="modal__label" for="novaSenha">
+          Nova Senha <span class="modal__required">*</span>
+        </label>
+        <input
+          id="novaSenha"
+          type="password"
+          class="modal__input"
+          formControlName="novaSenha"
+          placeholder="Digite a nova senha"
+          [class.modal__input--error]="novaSenhaControl.touched && novaSenhaControl.invalid" />
+        @if (novaSenhaControl.touched && novaSenhaControl.hasError('required')) {
+          <span class="modal__error">Nova senha é obrigatória</span>
+        }
+        @if (novaSenhaControl.touched && novaSenhaControl.hasError('minlength')) {
+          <span class="modal__error">Senha deve ter no mínimo 6 caracteres</span>
+        }
+      </div>
+
+      <div class="modal__field">
+        <label class="modal__label" for="confirmarSenha">
+          Confirmar Senha <span class="modal__required">*</span>
+        </label>
+        <input
+          id="confirmarSenha"
+          type="password"
+          class="modal__input"
+          formControlName="confirmarSenha"
+          placeholder="Confirme a nova senha"
+          [class.modal__input--error]="confirmarSenhaControl.touched && (confirmarSenhaControl.invalid || !senhasIguais())" />
+        @if (confirmarSenhaControl.touched && confirmarSenhaControl.hasError('required')) {
+          <span class="modal__error">Confirmação de senha é obrigatória</span>
+        }
+        @if (confirmarSenhaControl.touched && confirmarSenhaControl.valid && !senhasIguais()) {
+          <span class="modal__error">As senhas não coincidem</span>
+        }
+      </div>
+
+      <div class="modal__actions">
+        <button
+          class="modal__button modal__button--cancel"
+          type="button"
+          (click)="onClose()">
+          Cancelar
+        </button>
+        <button
+          class="modal__button modal__button--submit"
+          type="submit"
+          [disabled]="!canSubmit()">
+          @if (isSubmitting()) {
+            Salvando...
+          } @else {
+            Salvar Senha
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

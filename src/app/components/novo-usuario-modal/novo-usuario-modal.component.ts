@@ -2,11 +2,9 @@ import { ChangeDetectionStrategy, Component, output, signal, computed } from '@a
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 
-import { JsonPipe } from '@angular/common';
-
 @Component({
   selector: 'app-novo-usuario-modal',
-  imports: [ReactiveFormsModule, NgxMaskDirective, JsonPipe],
+  imports: [ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './novo-usuario-modal.component.html',
   styleUrl: './novo-usuario-modal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
