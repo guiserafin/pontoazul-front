@@ -234,6 +234,37 @@
   text-align: center;
 }
 
+.login__aux {
+  margin: 0;
+  text-align: center;
+}
+
+.login__link {
+  color: #667eea;
+  font-size: 0.925rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.login__link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.login__success {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.08));
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  color: #15803d;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 @media (max-width: 640px) {
   .login {
     padding: 1.5rem;
