@@ -1,8 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Ponto Azul — design tokens & base
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  /* brand */
+  --pa-navy-deep: #0a1e3c;
+  --pa-navy: #12325e;
+  --pa-blue: #1e5ac8;
+  --pa-blue-soft: #e8effb;
+
+  /* neutrals */
+  --pa-ink: #0c1b2e;
+  --pa-muted: #5b6b82;
+  --pa-bg: #eef2f8;
+  --pa-surface: #ffffff;
+  --pa-line: #d8e1ee;
+
+  /* semantic */
+  --pa-ok: #1b7a4e;
+  --pa-ok-bg: #e6f4ec;
+  --pa-danger: #b3362e;
+  --pa-danger-bg: #fbecea;
+  --pa-warn: #8a6100;
+  --pa-warn-bg: #fff6dc;
+
+  /* type */
+  --pa-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --pa-font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+
+  /* shape & elevation */
+  --pa-radius: 10px;
+  --pa-radius-lg: 14px;
+  --pa-shadow: 0 1px 2px rgba(12, 27, 46, 0.06), 0 8px 24px rgba(12, 27, 46, 0.08);
+  --pa-shadow-lg: 0 4px 12px rgba(12, 27, 46, 0.1), 0 24px 56px rgba(12, 27, 46, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--pa-font-body);
+  color: var(--pa-ink);
+  background-color: var(--pa-bg);
+  /* subtle timesheet grid */
+  background-image:
+    linear-gradient(rgba(18, 50, 94, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18, 50, 94, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--pa-blue);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pa-blue);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

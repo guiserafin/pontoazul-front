@@ -1,424 +1,265 @@
-.home {
+/* ===== Employee: punch clock ===== */
+.ponto {
   display: grid;
-  gap: 1rem;
-  padding: 2rem;
+  place-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem 1rem;
 }
 
-.home__title {
+.ponto__card {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 2.5rem 2rem;
+  background: var(--pa-surface);
+  border: 1px solid var(--pa-line);
+  border-top: 3px solid var(--pa-navy);
+  border-radius: var(--pa-radius-lg);
+  box-shadow: var(--pa-shadow);
+}
+
+.ponto__time-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--pa-line);
+}
+
+.ponto__date {
   margin: 0;
-  font-size: 2rem;
-}
-
-.home__subtitle {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.home__url {
+  font-size: 0.8rem;
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pa-muted);
 }
 
-.home__hint {
+.ponto__time {
   margin: 0;
-  color: #555;
+  font-family: var(--pa-font-display);
+  font-size: clamp(3.25rem, 12vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--pa-navy);
 }
 
-/* Admin Section */
+.ponto__timezone {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--pa-muted);
+}
+
+.ponto__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ponto__button {
+  padding: 0.875rem 1rem;
+  border-radius: var(--pa-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.ponto__button--primary {
+  border: 0;
+  background: var(--pa-navy);
+  color: #fff;
+}
+
+.ponto__button--primary:hover:not(:disabled) {
+  background: var(--pa-blue);
+  box-shadow: 0 6px 16px rgba(30, 90, 200, 0.25);
+}
+
+.ponto__button--primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ponto__button--secondary {
+  border: 1px solid var(--pa-line);
+  background: var(--pa-surface);
+  color: var(--pa-navy);
+}
+
+.ponto__button--secondary:hover {
+  border-color: var(--pa-blue);
+  background: var(--pa-blue-soft);
+}
+
+.ponto__message,
+.admin__success,
+.admin__error {
+  margin: 0;
+  padding: 0.75rem 0.875rem;
+  border-radius: var(--pa-radius);
+  border: 1px solid;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.ponto__message--success,
+.admin__success {
+  background: var(--pa-ok-bg);
+  border-color: rgba(27, 122, 78, 0.25);
+  color: var(--pa-ok);
+}
+
+.ponto__message--error,
+.admin__error {
+  background: var(--pa-danger-bg);
+  border-color: rgba(179, 54, 46, 0.25);
+  color: var(--pa-danger);
+}
+
+/* ===== Admin: approvals ledger ===== */
 .admin {
-  padding: 2rem;
-  min-height: calc(100vh - 4rem);
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .admin__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 2rem;
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.25);
+  align-items: baseline;
+  gap: 1rem;
 }
 
 .admin__title {
   margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ffffff;
+  font-family: var(--pa-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--pa-ink);
 }
 
-.admin__loading {
+.admin__loading,
+.admin__empty {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.admin__success {
-  margin-bottom: 1.5rem;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  background: #d1fae5;
-  color: #065f46;
-  font-weight: 500;
-}
-
-.admin__error {
-  margin-bottom: 1.5rem;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  background: #fee;
-  color: #c00;
-  font-weight: 500;
+  color: var(--pa-muted);
+  font-size: 0.9rem;
 }
 
 .admin__empty {
-  padding: 2rem;
+  padding: 2.5rem;
   text-align: center;
-  border-radius: 1.5rem;
-  background: #ffffff;
-  color: #64748b;
-  font-size: 1.125rem;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  background: var(--pa-surface);
+  border: 1px dashed var(--pa-line);
+  border-radius: var(--pa-radius-lg);
 }
 
 .admin__table-container {
   overflow-x: auto;
-  border-radius: 1.5rem;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  background: var(--pa-surface);
+  border: 1px solid var(--pa-line);
+  border-radius: var(--pa-radius-lg);
+  box-shadow: var(--pa-shadow);
 }
 
 .admin__table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.admin__table thead {
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  font-size: 0.9rem;
 }
 
 .admin__table th {
-  padding: 1.25rem 1rem;
+  padding: 0.75rem 1rem;
   text-align: left;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.admin__table th:first-child {
-  padding-left: 1.5rem;
-  border-top-left-radius: 1.5rem;
-}
-
-.admin__table th:last-child {
-  padding-right: 1.5rem;
-  border-top-right-radius: 1.5rem;
-}
-
-.admin__table tbody tr {
-  border-bottom: 1px solid #e2e8f0;
-  transition: background-color 0.2s;
-}
-
-.admin__table tbody tr:hover {
-  background-color: #f8fafc;
-}
-
-.admin__table tbody tr:last-child {
-  border-bottom: none;
+  color: var(--pa-muted);
+  border-bottom: 1px solid var(--pa-line);
+  background: #f7fafd;
+  white-space: nowrap;
 }
 
 .admin__table td {
-  padding: 1.25rem 1rem;
-  font-size: 0.9375rem;
-  color: #334155;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--pa-line);
+  color: var(--pa-ink);
+  font-variant-numeric: tabular-nums;
 }
 
-.admin__table td:first-child {
-  padding-left: 1.5rem;
-  font-weight: 600;
-  color: #1e3a8a;
+.admin__table tbody tr:last-child td {
+  border-bottom: 0;
 }
 
-.admin__table td:last-child {
-  padding-right: 1.5rem;
+.admin__table tbody tr:hover {
+  background: var(--pa-blue-soft);
 }
 
 .admin__badge {
   display: inline-block;
-  padding: 0.375rem 0.875rem;
-  border-radius: 9999px;
-  font-size: 0.8125rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
 }
 
 .admin__badge--pending {
-  background: #fef3c7;
-  color: #92400e;
+  background: var(--pa-warn-bg);
+  color: var(--pa-warn);
 }
 
 .admin__actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .admin__button {
-  padding: 0.625rem 1.25rem;
-  border: none;
-  border-radius: 0.75rem;
-  font-size: 0.875rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--pa-surface);
+  transition: 0.15s ease;
 }
 
 .admin__button--approve {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  border-color: rgba(27, 122, 78, 0.4);
+  color: var(--pa-ok);
 }
 
 .admin__button--approve:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-}
-
-.admin__button--approve:active {
-  transform: translateY(0);
+  background: var(--pa-ok);
+  border-color: var(--pa-ok);
+  color: #fff;
 }
 
 .admin__button--reject {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  border-color: rgba(179, 54, 46, 0.4);
+  color: var(--pa-danger);
 }
 
 .admin__button--reject:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-}
-
-.admin__button--reject:active {
-  transform: translateY(0);
-}
-
-/* Ponto Section */
-.ponto {
-  display: grid;
-  place-items: center;
-  min-height: calc(100vh - 4rem);
-  padding: 2rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-}
-
-.ponto__card {
-  display: grid;
-  gap: 2rem;
-  width: min(480px, 100%);
-  padding: 3rem 2.5rem;
-  border-radius: 2rem;
-  background: #ffffff;
-  box-shadow:
-    0 20px 40px -12px rgba(15, 23, 42, 0.12),
-    0 0 0 1px rgba(148, 163, 184, 0.1);
-  animation: card-entry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes card-entry {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.ponto__time-display {
-  display: grid;
-  gap: 0.5rem;
-  text-align: center;
-  padding: 2rem 1rem;
-  border-radius: 1.5rem;
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.25);
-}
-
-.ponto__date {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.ponto__time {
-  margin: 0;
-  font-size: 3.5rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-
-.ponto__timezone {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.02em;
-}
-
-.ponto__actions {
-  display: grid;
-  gap: 1rem;
-}
-
-.ponto__button {
-  padding: 1.125rem 1.5rem;
-  border: none;
-  border-radius: 1.25rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
-}
-
-.ponto__button--primary {
-  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-  color: #ffffff;
-}
-
-.ponto__button--primary:not([disabled]):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(30, 58, 138, 0.3);
-}
-
-.ponto__button--primary:not([disabled]):active {
-  transform: translateY(0);
-}
-
-.ponto__button--primary[disabled] {
-  cursor: not-allowed;
-  opacity: 0.65;
-  transform: none;
-}
-
-.ponto__button--secondary {
-  background: #ffffff;
-  color: #1e3a8a;
-  border: 2px solid #1e3a8a;
-}
-
-.ponto__button--secondary:hover {
-  background: #1e3a8a;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(30, 58, 138, 0.25);
-}
-
-.ponto__button--secondary:active {
-  transform: translateY(0);
-}
-
-.ponto__message {
-  margin: 0;
-  padding: 1rem 1.25rem;
-  border-radius: 1rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  text-align: center;
-  animation: message-entry 0.3s ease;
-}
-
-@keyframes message-entry {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.ponto__message--success {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.08));
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  color: #15803d;
-}
-
-.ponto__message--error {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.08));
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #dc2626;
+  background: var(--pa-danger);
+  border-color: var(--pa-danger);
+  color: #fff;
 }
 
 @media (max-width: 640px) {
-  .ponto {
-    padding: 1.5rem;
-  }
-
   .ponto__card {
-    padding: 2.5rem 2rem;
-    gap: 1.75rem;
+    padding: 1.75rem 1.25rem;
   }
 
-  .ponto__time {
-    font-size: 3rem;
-  }
-
-  .ponto__button {
-    padding: 1rem 1.25rem;
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .ponto {
-    padding: 1rem;
-  }
-
-  .ponto__card {
-    padding: 2rem 1.5rem;
-    gap: 1.5rem;
-    border-radius: 1.75rem;
-  }
-
-  .ponto__time-display {
-    padding: 1.5rem 0.75rem;
-  }
-
-  .ponto__time {
-    font-size: 2.5rem;
-  }
-
-  .ponto__date {
-    font-size: 0.925rem;
-  }
-
-  .ponto__timezone {
-    font-size: 0.8125rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .admin {
+    padding: 1.5rem 1rem 2.5rem;
   }
 }
